@@ -4,7 +4,6 @@ import re
 from datetime import datetime, timezone
 from unittest.mock import MagicMock
 
-import pytest
 
 import app.generator as gen_module
 from app.generator import GeneratorChain, _extractive_answer

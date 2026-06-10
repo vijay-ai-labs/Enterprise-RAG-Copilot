@@ -1,8 +1,7 @@
 """Tests for app/ingestion.py — text extraction from PDF, TXT, and Markdown."""
 
-import io
 import pytest
-from app.ingestion import extract_text, _extract_plaintext
+from app.ingestion import extract_text
 
 
 # ---------------------------------------------------------------------------
@@ -75,10 +74,8 @@ def test_pdf_extension_dispatches_to_pdf_extractor(monkeypatch):
     with patch("app.ingestion.PdfReader", return_value=mock_reader_instance, create=True):
         # Patch the import inside the function
         import app.ingestion as ing_module
-        original = ing_module._extract_pdf
 
         def patched_pdf(file_bytes, filename):
-            from unittest.mock import MagicMock
             reader = mock_reader_instance
             pages = []
             for i, p in enumerate(reader.pages, start=1):

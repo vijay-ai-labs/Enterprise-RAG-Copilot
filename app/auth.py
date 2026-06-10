@@ -13,7 +13,7 @@ import time
 from collections import defaultdict
 from typing import Optional
 
-from fastapi import HTTPException, Request, Security
+from fastapi import HTTPException, Security
 from fastapi.security import APIKeyHeader
 
 from app.config import settings

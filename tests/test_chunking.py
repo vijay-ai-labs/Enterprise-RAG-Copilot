@@ -131,7 +131,6 @@ def test_no_text_lost_long_text_no_spaces():
     # With no spaces, no snapping occurs — total chars across chunks with overlap
     # Every position in the original must be covered by at least one chunk
     covered = set()
-    start = 0
     step = 100 - 20
     pos = 0
     for chunk in chunks:

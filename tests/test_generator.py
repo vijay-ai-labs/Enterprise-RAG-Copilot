@@ -1,7 +1,6 @@
 """Tests for app/generator.py — flan-t5 backend uses AutoModelForSeq2SeqLM (seq2seq)."""
 
 import sys
-import pytest
 from unittest.mock import MagicMock, patch
 from app.generator import GeneratorChain, _try_flan_t5, _get_flan_model
 import app.generator as gen_module

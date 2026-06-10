@@ -64,7 +64,6 @@ class TestVectorStore:
 
     def test_results_sorted_by_score_descending(self, tmp_path):
         store = VectorStore(index_dir=str(tmp_path))
-        dim = 4
         chunks = [_make_chunk(f"doc {i}", page=i) for i in range(3)]
         vecs = np.array([
             [1.0, 0.0, 0.0, 0.0],  # identical to query → score 1.0
@@ -150,9 +149,7 @@ class TestVectorStore:
     def test_load_migrates_legacy_pickle(self, tmp_path):
         """Load auto-migrates metadata.pkl → metadata.json and validates counts."""
         import pickle as _pickle
-        import json as _json
         import faiss as _faiss
-        from datetime import datetime, timezone
 
         # Write FAISS index with 1 vector
         dim = 4
@@ -174,7 +171,6 @@ class TestVectorStore:
     def test_get_vectors_retrieves_correct_vectors(self, tmp_path):
         """get_vectors() must return the same vectors that were stored in FAISS in O(1)."""
         store = VectorStore(index_dir=str(tmp_path))
-        dim = 4
         chunks = [_make_chunk("chunk a", filename="a.txt"), _make_chunk("chunk b", filename="b.txt")]
         vecs = np.array([
             [1.0, 0.0, 0.0, 0.0],
@@ -208,7 +204,6 @@ class TestRetriever:
         from app.retriever import Retriever
 
         store = VectorStore(index_dir=str(tmp_path))
-        dim = 4
 
         chunks = [
             _make_chunk("highly relevant content", page=1),

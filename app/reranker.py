@@ -11,7 +11,7 @@ ranking but is ~10–50x slower per chunk. Use after coarse retrieval (top 20–
 
 from __future__ import annotations
 
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 from app.config import settings
 from app.logger import logger

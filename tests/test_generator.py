@@ -117,6 +117,8 @@ def test_generate_no_chunks_returns_fallback():
 
 def test_generate_uses_flan_when_ollama_down(monkeypatch):
     """When Ollama is unreachable, generate falls back to flan-t5."""
+    from app.config import settings
+    monkeypatch.setattr(settings, "generation_mode", "auto")
     monkeypatch.setattr(gen_module, "_try_openai", lambda *a, **k: None)
     monkeypatch.setattr(gen_module, "_try_ollama", lambda prompt: None)
     monkeypatch.setattr(gen_module, "_try_flan_t5", lambda prompt: "Flan fallback answer.")
@@ -129,6 +131,8 @@ def test_generate_uses_flan_when_ollama_down(monkeypatch):
 
 def test_generate_uses_ollama_when_available(monkeypatch):
     """When Ollama returns a response, it is used and flan-t5 is not loaded."""
+    from app.config import settings
+    monkeypatch.setattr(settings, "generation_mode", "auto")
     monkeypatch.setattr(gen_module, "_try_openai", lambda *a, **k: None)
     monkeypatch.setattr(gen_module, "_try_ollama", lambda prompt: "Ollama answer.")
     monkeypatch.setattr(gen_module, "_flan_model", None)

@@ -1,0 +1,134 @@
+MACHINE LEARNING CONCEPTS: A COMPREHENSIVE REFERENCE
+
+===========================================================
+SECTION 1: SUPERVISED LEARNING FUNDAMENTALS
+===========================================================
+
+Supervised learning is the task of learning a function that maps inputs to outputs based on example input-output pairs. The model is trained on a labeled dataset, where each example consists of an input vector and the desired output value.
+
+LINEAR REGRESSION
+Linear regression models the relationship between a dependent variable and one or more independent variables. The goal is to find the best-fitting line through the data points by minimizing the sum of squared residuals. The ordinary least squares (OLS) method computes: theta = (X^T X)^{-1} X^T y. Regularization variants include Ridge (L2 penalty) and Lasso (L1 penalty) which prevent overfitting.
+
+LOGISTIC REGRESSION
+Despite its name, logistic regression is used for classification. It models the probability that an instance belongs to a class using the sigmoid function: sigma(z) = 1 / (1 + exp(-z)). The decision boundary is linear in the feature space. For multi-class problems, softmax regression generalizes logistic regression.
+
+SUPPORT VECTOR MACHINES (SVM)
+SVMs find the hyperplane that maximizes the margin between classes. The optimization problem is: minimize 0.5 * ||w||^2 subject to y_i(w^T x_i + b) >= 1. The kernel trick allows SVMs to operate in high-dimensional feature spaces without explicitly computing the transformation. Common kernels include linear, polynomial, RBF (radial basis function), and sigmoid.
+
+DECISION TREES
+Decision trees partition the feature space into regions using a series of binary splits. The splitting criterion for classification is typically Gini impurity or information gain (entropy). Trees are prone to overfitting and are often used as base learners in ensemble methods.
+
+RANDOM FORESTS
+Random Forests are an ensemble of decision trees trained on bootstrap samples of the data (bagging), with each split considering only a random subset of features. This decorrelates the trees and reduces variance. Feature importance can be measured as the mean decrease in impurity across all trees.
+
+GRADIENT BOOSTING
+Gradient Boosting trains trees sequentially, with each new tree fitting the residuals of the previous ensemble. XGBoost, LightGBM, and CatBoost are highly optimized implementations that dominate tabular data competitions. Key hyperparameters include learning rate, max depth, number of estimators, and subsample ratio.
+
+===========================================================
+SECTION 2: NEURAL NETWORKS
+===========================================================
+
+PERCEPTRON AND MULTILAYER PERCEPTRON (MLP)
+A perceptron is a single linear classifier with a threshold activation. The multilayer perceptron stacks multiple layers of neurons with non-linear activations (ReLU, sigmoid, tanh) enabling universal function approximation. Backpropagation computes gradients via the chain rule, and stochastic gradient descent (SGD) or Adam optimizer updates the weights.
+
+ACTIVATION FUNCTIONS
+- ReLU (Rectified Linear Unit): f(x) = max(0, x). Prevents vanishing gradients, sparse activation.
+- Sigmoid: f(x) = 1/(1+e^-x). Outputs in (0,1), used for binary classification output layers.
+- Tanh: f(x) = (e^x - e^-x)/(e^x + e^-x). Zero-centered, outputs in (-1,1).
+- GELU: Gaussian Error Linear Unit. Used in BERT and GPT models.
+- SiLU/Swish: Self-gated activation. Used in modern architectures like LLaMA.
+
+BATCH NORMALIZATION
+Batch normalization normalizes layer inputs to have zero mean and unit variance, then applies learnable scale and shift parameters. It reduces internal covariate shift, allows higher learning rates, and acts as a regularizer. Layer normalization, used in Transformers, normalizes across features rather than batch dimension.
+
+DROPOUT
+Dropout randomly sets neuron activations to zero during training with probability p. This prevents co-adaptation of neurons and acts as an ensemble method. At inference time, dropout is disabled and weights are scaled by (1-p).
+
+CONVOLUTIONAL NEURAL NETWORKS (CNNs)
+CNNs exploit the spatial structure of images through convolution operations. Key components:
+- Convolutional layers: Apply learned filters to extract local features
+- Pooling layers: Downsample feature maps (max pooling, average pooling)
+- Fully connected layers: Final classification layers
+
+Famous architectures: LeNet (1998), AlexNet (2012), VGGNet, ResNet (skip connections solving vanishing gradients), EfficientNet.
+
+===========================================================
+SECTION 3: OPTIMIZATION
+===========================================================
+
+GRADIENT DESCENT VARIANTS
+- Batch GD: Computes gradient over entire dataset. Stable but slow for large datasets.
+- Stochastic GD (SGD): Updates on single examples. Noisy but fast and can escape local minima.
+- Mini-batch GD: Updates on small batches (32-512). Best of both worlds. Standard in deep learning.
+
+ADAPTIVE OPTIMIZERS
+- Momentum: Accumulates gradient directions to accelerate optimization and reduce oscillation.
+- RMSprop: Adapts learning rate per parameter using exponential moving average of squared gradients.
+- Adam: Combines momentum and RMSprop. Most widely used optimizer. Computes adaptive per-parameter learning rates with bias correction.
+- AdamW: Adam with decoupled weight decay. Preferred for training LLMs.
+
+LEARNING RATE SCHEDULING
+- Step decay: Reduce LR by factor every N epochs
+- Cosine annealing: LR follows cosine curve from max to min
+- Warmup: Linearly increase LR from 0 during initial training phase
+- One-cycle policy: LR ramps up then down over training cycle
+
+===========================================================
+SECTION 4: REGULARIZATION AND GENERALIZATION
+===========================================================
+
+BIAS-VARIANCE TRADEOFF
+The expected error of a model can be decomposed into:
+- Bias: Error from incorrect assumptions (underfitting)
+- Variance: Error from sensitivity to training data fluctuations (overfitting)
+- Irreducible noise: Error from inherent data noisiness
+
+Increasing model complexity decreases bias but increases variance. Regularization techniques aim to find the sweet spot.
+
+CROSS-VALIDATION
+K-fold cross-validation splits data into K folds, training on K-1 and validating on 1, rotating through all folds. This provides a robust estimate of generalization performance. Stratified k-fold preserves class distribution in each fold.
+
+EARLY STOPPING
+Monitor validation loss during training and stop when it begins increasing. This is an implicit regularization technique that prevents overfitting without changing the model architecture.
+
+DATA AUGMENTATION
+Artificially increase training set size by applying label-preserving transformations: flips, rotations, crops, color jitter for images; synonym replacement, back-translation for text; noise injection for audio and tabular data.
+
+===========================================================
+SECTION 5: EVALUATION METRICS
+===========================================================
+
+CLASSIFICATION METRICS
+- Accuracy: Fraction of correct predictions. Misleading for imbalanced datasets.
+- Precision: TP / (TP + FP). Of predicted positives, how many are correct.
+- Recall: TP / (TP + FN). Of actual positives, how many were found.
+- F1 Score: Harmonic mean of precision and recall. Balances both.
+- AUC-ROC: Area under the receiver operating characteristic curve. Measures rank ordering ability.
+- Log-loss: Cross-entropy loss. Penalizes confident wrong predictions heavily.
+
+REGRESSION METRICS
+- MAE (Mean Absolute Error): Average absolute difference between predictions and truth.
+- MSE (Mean Squared Error): Average squared difference. Penalizes large errors more.
+- RMSE: Square root of MSE. Same units as target variable.
+- R² (Coefficient of Determination): Fraction of variance explained by the model.
+- MAPE: Mean Absolute Percentage Error. Scale-independent but problematic near zero.
+
+===========================================================
+SECTION 6: UNSUPERVISED LEARNING
+===========================================================
+
+CLUSTERING
+K-Means: Iteratively assigns points to nearest centroid and recomputes centroids. Sensitive to initialization (use K-Means++ for better initialization) and number of clusters (choose via elbow method or silhouette score).
+
+DBSCAN: Density-based clustering. Groups points in high-density regions and marks outliers as noise. Does not require specifying number of clusters.
+
+HIERARCHICAL CLUSTERING: Builds a dendrogram by either bottom-up (agglomerative) or top-down (divisive) merging. Linkage criteria: single, complete, average, Ward's.
+
+DIMENSIONALITY REDUCTION
+PCA (Principal Component Analysis): Finds orthogonal axes of maximum variance. Projects data onto top-k components. Assumes linear structure.
+
+t-SNE (t-distributed Stochastic Neighbor Embedding): Non-linear technique for visualization. Preserves local structure. Computationally expensive, not invertible.
+
+UMAP (Uniform Manifold Approximation and Projection): Faster than t-SNE, better preserves global structure. Used extensively for single-cell genomics and embedding visualization.
+
+AUTOENCODERS: Neural networks trained to reconstruct input through a bottleneck. The encoder compresses to latent space; the decoder reconstructs. Used for anomaly detection, denoising, and generative modeling.

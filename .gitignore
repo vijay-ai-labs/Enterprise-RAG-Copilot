@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+pytest-cache-files-*/
+.mypy_cache/
+
+# App runtime
+indexes/faiss.index
+indexes/*.json
+indexes/*.pkl
+logs/*.jsonl
+logs/*.log
+data/*.db
+data/*.sqlite
+
+# Env
+.env
+
+# Node
+**/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Models cache (large)
+.cache/
+
+# pytest temp files
+.tmp/

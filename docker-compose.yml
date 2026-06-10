@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./indexes:/app/indexes
+      - ./logs:/app/logs
+      - ./data:/app/data      # persist SQLite DB (metrics, feedback, documents)
+    environment:
+      - API_KEY=${API_KEY:-}
+      - GENERATION_MODE=${GENERATION_MODE:-extractive}
+      - OLLAMA_URL=${OLLAMA_URL:-http://host.docker.internal:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000}
+      - TOP_K=${TOP_K:-5}
+      - CHUNK_SIZE=${CHUNK_SIZE:-512}
+      - CHUNK_OVERLAP=${CHUNK_OVERLAP:-64}
+      - MAX_UPLOAD_MB=${MAX_UPLOAD_MB:-50.0}
+      - SAVE_INDEX_ON_INGEST=${SAVE_INDEX_ON_INGEST:-true}
+      - USE_RERANKER=${USE_RERANKER:-true}
+      - RRF_SCORE_THRESHOLD=${RRF_SCORE_THRESHOLD:-0.005}
+      - USE_HYBRID_SEARCH=${USE_HYBRID_SEARCH:-true}
+      - RATE_LIMIT_PER_MINUTE=${RATE_LIMIT_PER_MINUTE:-60}
+    restart: unless-stopped
+    healthcheck:
+      # start_period covers embedding model cold-load (~20-40s on first start)
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE_URL=
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+# Ollama is intentionally not included here — run it on your host and set
+# OLLAMA_URL=http://host.docker.internal:11434 in your environment.
+# With GENERATION_MODE=extractive (the default above), no LLM is needed at all.

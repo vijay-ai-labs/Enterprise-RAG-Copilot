@@ -291,4 +291,4 @@ pytest tests/ -v
 ## Built By
 
 Associate AI/ML Engineer building production-grade RAG systems.
-[LinkedIn](https://linkedin.com/in/your-profile) · [Email](mailto:vhks2025@gmail.com)
+[LinkedIn](https://www.linkedin.com/in/vijayramaraju-ai/) · [Email](mailto:vijayramaraju485@gmail.com)
